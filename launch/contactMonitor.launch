@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+ <!-- Simple example with parameters.
+
+
+  -->
+
+<launch>
+
+    <node pkg="contactMonitor" type="contactMonitor" name="contact" >
+      <param name="collisions_topic_name" value="/isColliding"/>
+      <param name="robot_model_name" value="concrete_plane"/>
+      <param name="actor_model_name" value="Dumpster"/>
+    </node>
+
+</launch>
