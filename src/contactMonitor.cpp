@@ -46,9 +46,9 @@ int main(int _argc, char **_argv)
   ros::NodeHandle nh;
 
   // read configuration
-  ros::param::param<std::string>("collisions_topic_name", collisions_topic_name, "/collisions");
-  ros::param::param<std::string>("robot_model_name", robot_model_name, "robot1");
-  ros::param::param<std::string>("actor_model_name", actor_model_name, "actor1");
+  ros::param::param<std::string>("~collisions_topic_name", collisions_topic_name, "/collisions");
+  ros::param::param<std::string>("~robot_model_name", robot_model_name, "robot1");
+  ros::param::param<std::string>("~actor_model_name", actor_model_name, "actor1");
 
   pub = nh.advertise<std_msgs::Time>(collisions_topic_name, 5);
   std_msgs::Time tmstp;
