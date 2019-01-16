@@ -9,8 +9,8 @@
 
     <node pkg="contactMonitor" type="contactMonitor" name="contact" >
       <param name="collisions_topic_name" value="/isColliding"/>
-      <param name="robot_model_name" value="concrete_plane"/>
-      <param name="actor_model_name" value="Dumpster"/>
+      <param name="robot_model_name" value="robot1"/>
+      <param name="actor_model_name" value="actor1"/>
     </node>
 
 </launch>
