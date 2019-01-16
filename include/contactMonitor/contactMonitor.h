@@ -11,6 +11,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Time.h"
+#include "gazebo_msgs/ContactState.h"
 
 #include <string>
 #include <iostream>

@@ -5,9 +5,11 @@
 #include <contactMonitor/contactMonitor.h>
 
 ros::Publisher pub;
+ros::Publisher fag_pub;
 std::string robot_model_name ;
 std::string actor_model_name ;
 std::string collisions_topic_name ;
+std::string collision_names_topic_name;
 
 
 /////////////////////////////////////////////////
@@ -21,11 +23,17 @@ void contact_callback(ConstContactsPtr &_msg)
 
   std_msgs::Time tmstp;
 
+  gazebo_msgs::ContactState contact_data;
+
   // Iterate over all the contacts in the message
     for (int i = 0; i < _msg->contact_size(); ++i)
     {
        collision1 = _msg->contact(i).collision1();
        collision2 = _msg->contact(i).collision2();
+
+       contact_data.collision1_name = collision1;
+       contact_data.collision2_name = collision2;
+       fag_pub.publish(contact_data);
 
        if (( (collision1.find(robot_model_name) != std::string::npos) || (collision2.find(robot_model_name) != std::string::npos) ) &&
           ( (collision1.find(actor_model_name) != std::string::npos) || (collision2.find(actor_model_name) != std::string::npos) )) {
@@ -47,10 +55,14 @@ int main(int _argc, char **_argv)
 
   // read configuration
   ros::param::param<std::string>("~collisions_topic_name", collisions_topic_name, "/collisions");
+  ros::param::param<std::string>("~collision_names_topic_name", collision_names_topic_name, "/fag");
+
   ros::param::param<std::string>("~robot_model_name", robot_model_name, "robot1");
   ros::param::param<std::string>("~actor_model_name", actor_model_name, "actor1");
 
   pub = nh.advertise<std_msgs::Time>(collisions_topic_name, 5);
+  fag_pub = nh.advertise<gazebo_msgs::ContactState>(collision_names_topic_name, 5);
+
   std_msgs::Time tmstp;
 
   // Load gazebo
@@ -64,9 +76,6 @@ int main(int _argc, char **_argv)
   gazebo::transport::SubscriberPtr sub = node->Subscribe("/gazebo/default/physics/contacts", contact_callback);
 
   ros::spin();
-  // Busy wait loop...replace with your own code as needed.
-  //while (ros::ok())
-  //  gazebo::common::Time::MSleep(10);
 
   // Make sure to shut everything down.
   gazebo::transport::fini();
