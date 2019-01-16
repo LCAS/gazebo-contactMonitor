@@ -1,5 +1,5 @@
 <package>
-  <name>contactMonitor</name>
+  <name>contact_monitor</name>
   <version>0.0.1</version>
   <description>
 	  Monitors collisions in gazebo by checking (gazebo) topic /gazebo/default/physics/contacts"
