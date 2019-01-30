@@ -19,9 +19,9 @@ void contact_callback(ConstContactsPtr& _msg)
 
   std::string collision1;
   std::string collision2;
-  gazebo_msgs::ContactState contact_data;
   std_msgs::Time tmstp;
 
+  gazebo_msgs::ContactState contact_data;
 
   // Iterate over all the contacts in the message
   for (int i = 0; i < _msg->contact_size(); ++i)
