@@ -10,8 +10,6 @@ std::string robot_model_name;
 std::string actor_model_name;
 std::string collisions_topic_name;
 std::string collision_names_topic_name;
-gazebo_msgs::ContactState contact_data;
-std_msgs::Time tmstp;
 
 /////////////////////////////////////////////////
 // Function is called everytime a message is received.
@@ -21,6 +19,9 @@ void contact_callback(ConstContactsPtr& _msg)
 
   std::string collision1;
   std::string collision2;
+  gazebo_msgs::ContactState contact_data;
+  std_msgs::Time tmstp;
+
 
   // Iterate over all the contacts in the message
   for (int i = 0; i < _msg->contact_size(); ++i)
