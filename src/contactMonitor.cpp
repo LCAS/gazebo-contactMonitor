@@ -16,10 +16,9 @@ std::string collision_names_topic_name;
 void contact_callback(ConstContactsPtr& _msg)
 {
   // Dump the message contents to stdout.
-  // std::cout << _msg->DebugString();
+
   std::string collision1;
   std::string collision2;
-
   std_msgs::Time tmstp;
 
   gazebo_msgs::ContactState contact_data;
@@ -49,17 +48,6 @@ void contact_callback(ConstContactsPtr& _msg)
     unsigned int contactGroupSize = _msg->contact(i).position_size();
     for (unsigned int j = 0; j < contactGroupSize; ++j)
     {
-      // loop through individual contacts between collision1 and collision2
-      // gzerr << j << "  Position:"
-      //       << contact.position(j).x() << " "
-      //       << contact.position(j).y() << " "
-      //       << contact.position(j).z() << "\n";
-      // gzerr << "   Normal:"
-      //       << contact.normal(j).x() << " "
-      //       << contact.normal(j).y() << " "
-      //       << contact.normal(j).z() << "\n";
-      // gzerr << "   Depth:" << contact.depth(j) << "\n";
-
       // Get force, torque and rotate into user specified frame.
       // frame_rot is identity if world is used (default for now)
       ignition::math::Quaterniond frame_rot;
@@ -160,7 +148,6 @@ int main(int _argc, char** _argv)
   fag_pub =
       nh.advertise<gazebo_msgs::ContactState>(collision_names_topic_name, 5);
 
-  std_msgs::Time tmstp;
 
   // Load gazebo
   gazebo::client::setup(_argc, _argv);
@@ -169,7 +156,29 @@ int main(int _argc, char** _argv)
   gazebo::transport::NodePtr node(new gazebo::transport::Node());
   node->Init();
 
-  // Listen to Gazebo world_stats topic
+  // Check if the topic to subscribe is present within the list, and
+  // create the subscriber only later
+  bool topic_found = false;
+  while (topic_found == false)
+  {
+    std::list<std::string> topics_list =
+        gazebo::transport::getAdvertisedTopics("");
+    for (std::list<std::string>::iterator topic = topics_list.begin();
+         topic != topics_list.end(); topic++)
+    {
+      std::cout << (*topic) << "\n";
+      if ((*topic).compare("/gazebo/default/physics/contacts") == 0)
+      {
+        std::cout<<"Topic found!"<<std::endl;
+        topic_found = true;
+      }
+      else
+      {
+        std::cout << "Check next topic" << std::endl;
+      }
+    }
+  }
+
   gazebo::transport::SubscriberPtr sub =
       node->Subscribe("/gazebo/default/physics/contacts", contact_callback);
 
