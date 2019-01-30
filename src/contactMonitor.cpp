@@ -3,7 +3,6 @@
 // mfc
 
 #include <contactMonitor/contactMonitor.h>
-#include <mutex>
 
 ros::Publisher pub;
 ros::Publisher fag_pub;
@@ -13,21 +12,19 @@ std::string collisions_topic_name;
 std::string collision_names_topic_name;
 gazebo_msgs::ContactState contact_data;
 std_msgs::Time tmstp;
-std::mutex mtx;
 
 /////////////////////////////////////////////////
 // Function is called everytime a message is received.
 void contact_callback(ConstContactsPtr& _msg)
 {
   // Dump the message contents to stdout.
-  // std::cout << _msg->DebugString();
+
   std::string collision1;
   std::string collision2;
 
   // Iterate over all the contacts in the message
   for (int i = 0; i < _msg->contact_size(); ++i)
   {
-    //    mtx.lock();
     collision1 = _msg->contact(i).collision1();
     collision2 = _msg->contact(i).collision2();
 
@@ -50,17 +47,6 @@ void contact_callback(ConstContactsPtr& _msg)
     unsigned int contactGroupSize = _msg->contact(i).position_size();
     for (unsigned int j = 0; j < contactGroupSize; ++j)
     {
-      // loop through individual contacts between collision1 and collision2
-      // gzerr << j << "  Position:"
-      //       << contact.position(j).x() << " "
-      //       << contact.position(j).y() << " "
-      //       << contact.position(j).z() << "\n";
-      // gzerr << "   Normal:"
-      //       << contact.normal(j).x() << " "
-      //       << contact.normal(j).y() << " "
-      //       << contact.normal(j).z() << "\n";
-      // gzerr << "   Depth:" << contact.depth(j) << "\n";
-
       // Get force, torque and rotate into user specified frame.
       // frame_rot is identity if world is used (default for now)
       ignition::math::Quaterniond frame_rot;
@@ -134,7 +120,6 @@ void contact_callback(ConstContactsPtr& _msg)
       tmstp.data.sec = when.sec();
       tmstp.data.nsec = when.nsec();
       pub.publish(tmstp);
-      //      mtx.unlock();
       return;
     }
   }
@@ -162,8 +147,6 @@ int main(int _argc, char** _argv)
   fag_pub =
       nh.advertise<gazebo_msgs::ContactState>(collision_names_topic_name, 5);
 
-  //  std_msgs::Time tmstp;
-  ros::Rate loop_rate = 1;
 
   // Load gazebo
   gazebo::client::setup(_argc, _argv);
@@ -198,16 +181,6 @@ int main(int _argc, char** _argv)
   gazebo::transport::SubscriberPtr sub =
       node->Subscribe("/gazebo/default/physics/contacts", contact_callback);
 
-
-  //  while(ros::ok())
-  //  {
-  //      mtx.lock();
-  //      pub.publish(tmstp);
-  //      fag_pub.publish(contact_data);
-  //      mtx.unlock();
-  //      ros::spinOnce();
-  //      loop_rate.sleep();
-  //  }
   ros::spin();
 
   // Make sure to shut everything down.
