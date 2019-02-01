@@ -2,8 +2,8 @@
 Changelog for package contact_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2019-02-01)
+------------------
 * Merge pull request `#2 <https://github.com/LCAS/gazebo-contactMonitor/issues/2>`_ from pulver22/fix_gazebo_synch
   Fix gazebo synch
 * Update contactMonitor.cpp
