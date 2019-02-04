@@ -2,6 +2,11 @@
 Changelog for package contact_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added CMake rule to install launch scripts
+* Contributors: Manuel Fernandez-Carmona
+
 1.1.0 (2019-02-04)
 ------------------
 * Topic namess follow the CCA rules. Added an error msg and 1s delay if no gz topic is found
