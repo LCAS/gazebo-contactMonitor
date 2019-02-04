@@ -8,8 +8,9 @@ ros::Publisher pub;
 ros::Publisher fag_pub;
 std::string robot_model_name;
 std::string actor_model_name;
-std::string collisions_topic_name;
+std::string collisions_timestamp_topic_name;
 std::string collision_names_topic_name;
+std::string gazebo_physics_topic_name;
 
 /////////////////////////////////////////////////
 // Function is called everytime a message is received.
@@ -134,17 +135,19 @@ int main(int _argc, char** _argv)
   ros::NodeHandle nh;
 
   // read configuration
-  ros::param::param<std::string>("~collisions_topic_name",
-                                 collisions_topic_name, "/collisions");
+  ros::param::param<std::string>("~collisions_timestamp_topic_name",
+                                 collisions_timestamp_topic_name, "/collisions");
   ros::param::param<std::string>("~collision_names_topic_name",
                                  collision_names_topic_name, "/fag");
+  ros::param::param<std::string>("~gazebo_physics_contact_topic_name",
+                                 gazebo_physics_topic_name, "/gazebo/default/physics/contacts");                                 
 
   ros::param::param<std::string>("~robot_model_name", robot_model_name,
                                  "robot1");
   ros::param::param<std::string>("~actor_model_name", actor_model_name,
                                  "actor1");
 
-  pub = nh.advertise<std_msgs::Time>(collisions_topic_name, 5);
+  pub = nh.advertise<std_msgs::Time>(collisions_timestamp_topic_name, 5);
   fag_pub =
       nh.advertise<gazebo_msgs::ContactState>(collision_names_topic_name, 5);
 
@@ -167,7 +170,7 @@ int main(int _argc, char** _argv)
          topic != topics_list.end(); topic++)
     {
       std::cout << (*topic) << "\n";
-      if ((*topic).compare("/gazebo/default/physics/contacts") == 0)
+      if ((*topic).compare(gazebo_physics_topic_name) == 0)
       {
         std::cout<<"Topic found!"<<std::endl;
         topic_found = true;
@@ -180,7 +183,7 @@ int main(int _argc, char** _argv)
   }
 
   gazebo::transport::SubscriberPtr sub =
-      node->Subscribe("/gazebo/default/physics/contacts", contact_callback);
+      node->Subscribe(gazebo_physics_topic_name, contact_callback);
 
   ros::spin();
 
