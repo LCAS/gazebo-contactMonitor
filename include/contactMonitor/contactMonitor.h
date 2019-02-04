@@ -9,6 +9,8 @@
 #include "gazebo/common/Time.hh"
 
 #include "ros/ros.h"
+#include <ros/console.h>
+#include "ros/this_node.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Time.h"
 #include "gazebo_msgs/ContactState.h"

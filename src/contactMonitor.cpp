@@ -5,7 +5,7 @@
 #include <contactMonitor/contactMonitor.h>
 
 ros::Publisher pub;
-ros::Publisher fag_pub;
+ros::Publisher collision_data_pub;
 std::string robot_model_name;
 std::string actor_model_name;
 std::string collisions_timestamp_topic_name;
@@ -111,7 +111,7 @@ void contact_callback(ConstContactsPtr& _msg)
       contact_data.depths.push_back(_msg->contact(i).depth(j));
     }
 
-    fag_pub.publish(contact_data);
+    collision_data_pub.publish(contact_data);
 
     if (((collision1.find(robot_model_name) != std::string::npos) ||
          (collision2.find(robot_model_name) != std::string::npos)) &&
@@ -136,9 +136,9 @@ int main(int _argc, char** _argv)
 
   // read configuration
   ros::param::param<std::string>("~collisions_timestamp_topic_name",
-                                 collisions_timestamp_topic_name, "/collisions");
+                                 collisions_timestamp_topic_name, "/collision_times");
   ros::param::param<std::string>("~collision_names_topic_name",
-                                 collision_names_topic_name, "/fag");
+                                 collision_names_topic_name, "/collision_data");
   ros::param::param<std::string>("~gazebo_physics_contact_topic_name",
                                  gazebo_physics_topic_name, "/gazebo/default/physics/contacts");                                 
 
@@ -148,7 +148,7 @@ int main(int _argc, char** _argv)
                                  "actor1");
 
   pub = nh.advertise<std_msgs::Time>(collisions_timestamp_topic_name, 5);
-  fag_pub =
+  collision_data_pub =
       nh.advertise<gazebo_msgs::ContactState>(collision_names_topic_name, 5);
 
 
@@ -169,17 +169,14 @@ int main(int _argc, char** _argv)
     for (std::list<std::string>::iterator topic = topics_list.begin();
          topic != topics_list.end(); topic++)
     {
-      std::cout << (*topic) << "\n";
       if ((*topic).compare(gazebo_physics_topic_name) == 0)
-      {
-        std::cout<<"Topic found!"<<std::endl;
+      {        
         topic_found = true;
-      }
-      else
-      {
-        std::cout << "Check next topic" << std::endl;
+        break;
       }
     }
+    ROS_ERROR("[%s] Topic [%s] not found. Waiting 1 sec. for it to be available",ros::this_node::getName().c_str(), gazebo_physics_topic_name.c_str());
+    ros::Duration(1).sleep();
   }
 
   gazebo::transport::SubscriberPtr sub =
