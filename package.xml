@@ -1,6 +1,6 @@
 <package>
   <name>contact_monitor</name>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <description>
 	  Monitors collisions in gazebo by checking (gazebo) topic /gazebo/default/physics/contacts"
     and then republishes into ROS the collision timestamp.

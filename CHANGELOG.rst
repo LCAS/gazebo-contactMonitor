@@ -2,8 +2,8 @@
 Changelog for package contact_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.1 (2019-02-04)
+------------------
 * Added CMake rule to install launch scripts
 * Contributors: Manuel Fernandez-Carmona
 
