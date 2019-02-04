@@ -2,8 +2,8 @@
 Changelog for package contact_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.0 (2019-02-04)
+------------------
 * Topic namess follow the CCA rules. Added an error msg and 1s delay if no gz topic is found
 * New README. Extra parameters added
 * Update package.xml
