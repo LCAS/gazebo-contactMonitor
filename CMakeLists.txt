@@ -13,7 +13,7 @@ find_package(gazebo REQUIRED)
 add_compile_options(${GAZEBO_CXX_FLAGS})
 add_compile_options(-std=c++11)
 
-sinclude_directories(${GAZEBO_INCLUDE_DIRS})
+include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
 ## Find Boost
