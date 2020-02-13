@@ -9,8 +9,11 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 ## Find gazebo
 find_package(gazebo REQUIRED)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
-include_directories(${GAZEBO_INCLUDE_DIRS})
+
+add_compile_options(${GAZEBO_CXX_FLAGS})
+add_compile_options(-std=c++11)
+
+sinclude_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
 ## Find Boost
