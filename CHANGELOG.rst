@@ -2,6 +2,14 @@
 Changelog for package contact_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#3 <https://github.com/LCAS/gazebo-contactMonitor/issues/3>`_ from gpdas/melodic-devel
+  gazebo8-* -> gazebo-*
+* gazebo8-* -> gazebo-*
+* Corrected wrong param name. Added params as args.
+* Contributors: Gautham P Das, Manuel Fernandez-Carmona, gpdas
+
 1.1.1 (2019-02-04)
 ------------------
 * Added CMake rule to install launch scripts
