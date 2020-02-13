@@ -2,8 +2,8 @@
 Changelog for package contact_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.2.0 (2020-02-13)
+------------------
 * Merge pull request `#3 <https://github.com/LCAS/gazebo-contactMonitor/issues/3>`_ from gpdas/melodic-devel
   gazebo8-* -> gazebo-*
 * gazebo8-* -> gazebo-*
