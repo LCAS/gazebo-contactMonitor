@@ -2,8 +2,8 @@
 Changelog for package contact_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.2.1 (2020-02-13)
+------------------
 * typo (`#4 <https://github.com/LCAS/gazebo-contactMonitor/issues/4>`_)
   * typo
   * gazebo_ros
